@@ -22,10 +22,11 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     if (prefersReducedMotion()) return;
 
     const lenis = new Lenis({
-      lerp: 0.1,
+      lerp: 0.14,
       wheelMultiplier: 1,
-      touchMultiplier: 1.6,
       smoothWheel: true,
+      // Native scrolling on touch — smoothing a finger drag always feels laggy.
+      syncTouch: false,
     });
     lenisRef = lenis;
 

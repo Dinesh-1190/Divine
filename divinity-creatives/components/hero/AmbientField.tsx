@@ -23,12 +23,13 @@ function measureQuality(): number {
   } catch {
     return 0;
   }
+  // Phones and tablets get the static field: a full-screen WebGL loop is the
+  // difference between a smooth scroll and a janky one on a touch device.
+  if (window.matchMedia("(pointer: coarse)").matches) return 0;
   const nav = navigator as Nav;
   const cores = nav.hardwareConcurrency ?? 8;
   const memory = nav.deviceMemory ?? 8;
-  const coarse = window.matchMedia("(pointer: coarse)").matches;
   if (cores <= 4 || memory <= 4) return 0.45;
-  if (coarse) return 0.6;
   return 1;
 }
 
@@ -37,14 +38,14 @@ function StaticField() {
   return (
     <div className="absolute inset-0" aria-hidden>
       <div
-        className="absolute left-[58%] top-[38%] h-[70vmax] w-[70vmax] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
+        className="absolute left-[58%] top-[38%] h-[70vmax] w-[70vmax] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[70px]"
         style={{
           background:
             "radial-gradient(circle, rgba(201,167,255,0.20), rgba(143,123,216,0.10) 42%, rgba(8,8,10,0) 68%)",
         }}
       />
       <div
-        className="absolute left-[18%] top-[76%] h-[42vmax] w-[42vmax] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[110px]"
+        className="absolute left-[18%] top-[76%] h-[42vmax] w-[42vmax] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px]"
         style={{
           background:
             "radial-gradient(circle, rgba(232,217,181,0.10), rgba(8,8,10,0) 66%)",

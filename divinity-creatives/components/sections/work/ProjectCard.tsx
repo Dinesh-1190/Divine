@@ -6,9 +6,9 @@ import MediaSlot from "@/components/ui/MediaSlot";
 import type { Project } from "@/lib/content";
 
 const WIDTH: Record<string, string> = {
-  "16:9": "w-[86vw] sm:w-[62vw] lg:w-[42vw] xl:w-[38vw]",
-  "9:16": "w-[62vw] sm:w-[36vw] lg:w-[18vw] xl:w-[15vw]",
-  "4:5": "w-[72vw] sm:w-[44vw] lg:w-[22vw] xl:w-[19vw]",
+  "16:9": "w-[82vw] sm:w-[60vw] lg:w-[42vw] xl:w-[38vw]",
+  "9:16": "w-[52vw] sm:w-[34vw] lg:w-[18vw] xl:w-[15vw]",
+  "4:5": "w-[66vw] sm:w-[42vw] lg:w-[22vw] xl:w-[19vw]",
 };
 
 export default function ProjectCard({
@@ -55,7 +55,7 @@ export default function ProjectCard({
         ref={ref}
         className="group relative"
         onPointerMove={onMove}
-        onPointerEnter={() => setHover(true)}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setHover(true)}
         onPointerLeave={() => setHover(false)}
         animate={{ scale: hover ? 1.03 : 1 }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}

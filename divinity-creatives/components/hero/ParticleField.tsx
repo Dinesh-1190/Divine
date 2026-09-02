@@ -229,7 +229,7 @@ export default function ParticleField({
     <Canvas
       camera={{ position: [0, 0, 7], fov: 52 }}
       frameloop={active ? "always" : "never"}
-      dpr={[1, quality > 0.7 ? 1.75 : 1.2]}
+      dpr={[1, quality > 0.7 ? 1.5 : 1.2]}
       gl={{ antialias: false, powerPreference: "high-performance", alpha: true }}
       style={{ pointerEvents: "none" }}
     >

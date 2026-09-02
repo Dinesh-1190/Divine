@@ -36,7 +36,7 @@ export default function Work() {
             start: "top top",
             end: () => `+=${distance()}`,
             pin: true,
-            scrub: 0.65,
+            scrub: 0.4,
             invalidateOnRefresh: true,
             anticipatePin: 1,
           },
@@ -61,26 +61,27 @@ export default function Work() {
         aria-labelledby="work-heading"
       >
         <div className="flex h-full flex-col lg:pb-8 lg:pt-[calc(var(--nav-h)+1.5rem)]">
-          <div className="mx-auto flex w-full max-w-[1600px] shrink-0 items-end justify-between gap-8 px-5 pb-10 sm:px-8">
+          <div className="mx-auto flex w-full max-w-[1600px] shrink-0 flex-col items-start gap-4 px-5 pb-8 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:gap-8 lg:pb-10">
             <MaskLines
               as="h2"
               id="work-heading"
-              className="display text-[clamp(2.4rem,6vw,5.4rem)]"
+              className="display text-[clamp(2.4rem,10vw,5.4rem)]"
               lines={["Selected work"]}
             />
-            <p className="hidden max-w-[34ch] pb-2 text-sm text-muted sm:block">
+            <p className="max-w-[34ch] text-sm text-muted lg:pb-2">
               Six pieces that show how we think. Open one to see the problem, the
               decisions and what changed.
             </p>
           </div>
 
-          {/* the rail: pinned + scrubbed on desktop, swipeable on touch */}
+          {/* Mobile-first: a snapping swipe carousel. From lg it becomes the
+              single wide rail that the pinned ScrollTrigger drives sideways. */}
           <div
             ref={rail}
-            className="flex w-max flex-1 items-center gap-6 px-5 sm:gap-10 sm:px-8 max-lg:w-full max-lg:snap-x max-lg:snap-mandatory max-lg:overflow-x-auto max-lg:pb-4 lg:will-change-transform"
+            className="flex w-full snap-x snap-mandatory items-start gap-5 overflow-x-auto scroll-px-5 px-5 pb-4 sm:gap-8 sm:px-8 lg:w-max lg:flex-1 lg:snap-none lg:items-center lg:gap-10 lg:overflow-x-visible lg:pb-0 lg:will-change-transform"
           >
             {projects.map((p, i) => (
-              <div key={p.slug} className="max-lg:snap-start">
+              <div key={p.slug} className="shrink-0 snap-start">
                 <ProjectCard
                   project={p}
                   index={i}
@@ -89,7 +90,7 @@ export default function Work() {
                 />
               </div>
             ))}
-            <div className="flex w-[38vw] shrink-0 items-center max-lg:hidden">
+            <div className="hidden w-[38vw] shrink-0 items-center lg:flex">
               <a
                 href="#contact"
                 className="display-tight max-w-[14ch] text-[clamp(1.6rem,2.6vw,2.6rem)] text-muted transition-colors duration-500 hover:text-fg"
@@ -99,9 +100,9 @@ export default function Work() {
             </div>
           </div>
 
-          <div className="mx-auto mt-10 w-full max-w-[1600px] shrink-0 px-5 text-sm text-dim sm:px-8 lg:mt-6">
+          <div className="mx-auto mt-6 w-full max-w-[1600px] shrink-0 px-5 text-sm text-dim sm:px-8">
             <span className="lg:hidden">Swipe to browse</span>
-            <span className="max-lg:hidden">Scroll to travel the rail</span>
+            <span className="hidden lg:inline">Scroll to travel the rail</span>
           </div>
         </div>
       </section>

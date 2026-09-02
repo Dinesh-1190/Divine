@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Ratio } from "@/lib/content";
 import { useReducedMotion } from "@/lib/media-query";
 import { asset } from "@/lib/asset";
+import { updateVideo, dropVideo } from "@/lib/video-conductor";
 
 const RATIO: Record<Ratio, string> = {
   "16:9": "16 / 9",
@@ -41,32 +42,29 @@ export default function MediaSlot({
 }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const idRef = useRef<symbol>(Symbol("media-slot"));
   const [playing, setPlaying] = useState(false);
-  const [inView, setInView] = useState(false);
   const reduced = useReducedMotion();
 
-  // The footage is the visual, not a hover easter egg: it runs whenever the
-  // slot is on screen and stops the moment it leaves.
+  // The footage is the visual, not a hover easter egg — but the conductor
+  // decides which slots actually run so the page never decodes seven at once.
   useEffect(() => {
     const el = wrapRef.current;
-    if (!el || !src?.mp4) return;
+    const v = videoRef.current;
+    if (!el || !v || !src?.mp4 || reduced) return;
+    const id = idRef.current;
     const io = new IntersectionObserver(
-      ([entry]) => setInView(entry.intersectionRatio > 0.25),
-      { threshold: [0, 0.25, 0.6] },
+      ([entry]) => {
+        updateVideo(id, v, entry.intersectionRatio, active ? 0.5 : 0);
+      },
+      { threshold: [0, 0.15, 0.3, 0.5, 0.75, 1] },
     );
     io.observe(el);
-    return () => io.disconnect();
-  }, [src?.mp4]);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    if ((inView || active) && !reduced) {
-      v.play().catch(() => {});
-    } else {
-      v.pause();
-    }
-  }, [inView, active, reduced]);
+    return () => {
+      io.disconnect();
+      dropVideo(id);
+    };
+  }, [src?.mp4, reduced, active]);
 
   return (
     <div
@@ -123,6 +121,7 @@ export default function MediaSlot({
             playsInline
             loop
             preload="none"
+            disablePictureInPicture
             poster={asset(src.poster)}
             aria-hidden
             onPlaying={() => setPlaying(true)}

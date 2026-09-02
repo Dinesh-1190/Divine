@@ -31,9 +31,9 @@ export default function Nav() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-[100] transition-[background-color,border-color,backdrop-filter] duration-700 ${
+        className={`fixed inset-x-0 top-0 z-[100] transition-[background-color,border-color] duration-500 ${
           solid && !open
-            ? "border-b border-line bg-void/72 backdrop-blur-xl"
+            ? "border-b border-line bg-void/85 backdrop-blur-md"
             : "border-b border-transparent"
         }`}
         style={{ height: "var(--nav-h)" }}
