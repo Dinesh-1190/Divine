@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Divinity Creatives — design tokens
+   ───────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-void: #08080a;
+  --color-elevated: #111114;
+  --color-elevated-2: #16161b;
+  --color-fg: #f5f4f1;
+  --color-muted: #8c8b92;
+  --color-dim: #7a7981;
+  --color-glow: #c9a7ff;
+  --color-warm: #e8d9b5;
+  --color-line: rgba(245, 244, 241, 0.08);
+  --color-line-strong: rgba(245, 244, 241, 0.16);
+
+  --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-instrument), "Helvetica Neue", Arial, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --nav-h: 76px;
+  --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: clip;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(201, 167, 255, 0.28);
+  color: #fff;
+}
+
+/* Focus — soft accent bloom, never the default blue ring */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px rgba(201, 167, 255, 0.9),
+    0 0 0 6px rgba(201, 167, 255, 0.16);
+  border-radius: 2px;
+}
+
+/* ── Typography primitives ───────────────────────────────── */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 105%;
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.display-tight {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+
+.prose-lede {
+  max-width: 46ch;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.175rem);
+  line-height: 1.6;
+}
+
+.hairline {
+  height: 1px;
+  background: var(--color-line);
+}
+
+/* Numerals that need to hold a column */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Reveal primitives ───────────────────────────────────── */
+
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* ── Ambient texture ─────────────────────────────────────── */
+
+.grain {
+  position: fixed;
+  inset: -120%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: var(--grain-url);
+  background-size: 180px 180px;
+  animation: grain-shift 700ms steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(-3%, 2%, 0);
+  }
+  40% {
+    transform: translate3d(2%, -3%, 0);
+  }
+  60% {
+    transform: translate3d(-2%, -2%, 0);
+  }
+  80% {
+    transform: translate3d(3%, 1%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes field-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slot-drift {
+  0% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(8%, 6%, 0) scale(1.16);
+  }
+}
+
+/* Cinematic unification wash applied over every media slot so
+   client footage of mixed provenance reads as one body of work. */
+.grade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      205deg,
+      rgba(201, 167, 255, 0.14) 0%,
+      rgba(8, 8, 10, 0) 42%,
+      rgba(232, 217, 181, 0.09) 100%
+    ),
+    radial-gradient(120% 90% at 50% 110%, rgba(8, 8, 10, 0.62), transparent 62%);
+  mix-blend-mode: screen;
+}
+
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    100% 80% at 50% 40%,
+    transparent 40%,
+    rgba(8, 8, 10, 0.55) 100%
+  );
+}
+
+/* ── Link underline that draws instead of appearing ──────── */
+
+.link-draw {
+  position: relative;
+  display: inline-block;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.16em;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.link-draw:hover::after,
+.link-draw:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Cursor suppression on pointer-fine devices ──────────── */
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain {
+    animation: none;
+  }
+}
