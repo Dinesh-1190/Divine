@@ -22,7 +22,9 @@ const instrument = Instrument_Sans({
   display: "swap",
 });
 
-const SITE = "https://divinitycreatives.com";
+/** Set by the deploy workflow so canonical/OG URLs match wherever it is
+ *  hosted; falls back to the production domain. */
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://divinitycreatives.com";
 const DESCRIPTION =
   "Divinity Creatives is a video editing studio for creators, founders and brands — YouTube longform, short form content, motion design and packaging built for retention.";
 

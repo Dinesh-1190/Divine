@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Ratio } from "@/lib/content";
 import { useReducedMotion } from "@/lib/media-query";
+import { asset } from "@/lib/asset";
 
 const RATIO: Record<Ratio, string> = {
   "16:9": "16 / 9",
@@ -106,7 +107,7 @@ export default function MediaSlot({
           {src.poster && (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              src={src.poster}
+              src={asset(src.poster)}
               alt={alt}
               loading="lazy"
               decoding="async"
@@ -122,13 +123,13 @@ export default function MediaSlot({
             playsInline
             loop
             preload="none"
-            poster={src.poster}
+            poster={asset(src.poster)}
             aria-hidden
             onPlaying={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
           >
-            {src.webm && <source src={src.webm} type="video/webm" />}
-            <source src={src.mp4} type="video/mp4" />
+            {src.webm && <source src={asset(src.webm)} type="video/webm" />}
+            <source src={asset(src.mp4)} type="video/mp4" />
           </video>
         </>
       )}
